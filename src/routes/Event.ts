@@ -4,7 +4,7 @@ import { Schemas, ValidateJoi } from '../middleware/ValidateSchema';
 
 const router = express.Router();
 
-router.post('/create',  controller.createEvent);
+router.post('/create', controller.createEvent);
 router.get('/event/:eventId', controller.readEvent);
 router.get('/:eventType', controller.readEventByType);
 router.get('/', controller.readAll);

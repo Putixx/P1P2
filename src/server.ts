@@ -6,6 +6,8 @@ import Logging from "./library/Logging";
 import userRoutes from './routes/User';
 import ticketRoutes from './routes/Ticket';
 import eventRoutes from './routes/Event';
+import authRoutes from './routes/Auth';
+import auth from './middleware/Auth';
 
 const router = express();
 
@@ -49,12 +51,13 @@ const StartServer = () => {
     });
 
     // Routes
-    router.use('/users', userRoutes);
-    router.use('/tickets', ticketRoutes);
-    router.use('/events', eventRoutes);
+    router.use('', authRoutes);
+    router.use('/users', auth, userRoutes);
+    router.use('/tickets', auth, ticketRoutes);
+    router.use('/events', auth, eventRoutes);
 
     // Healthcheck
-    router.get('/ping', (req, res, next) => res.status(200).json({message: 'pong'}));
+    router.get('/ping', auth, (req, res, next) => res.status(200).json({message: 'pong'}));
 
     // Error handling
     router.use((req, res, next) => {

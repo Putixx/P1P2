@@ -4,7 +4,10 @@ export interface IEvent {
     name: string;
     type: string;
     owner: string;
+    street: string;
+    city: string;
     description: string;
+    date: Date;
     image: string;
     latitude: number;
     longtitude: number;
@@ -20,7 +23,10 @@ const EventSchema: Schema = new Schema(
         name: { type: String, required: true },
         type: { type: String, required: true },
         owner: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+        street: { type: String, required: true },
+        city: { type: String, required: true },
         description: { type: String, required: true },
+        date: { type: Date, required: true },
         image: { type: String, required: true },
         latitude: { type: Number, required: true },
         longtitude: { type: Number, required: true },

@@ -8,6 +8,7 @@ export interface IUser {
     events: string[];
     tickets: string[];
     role: string;
+    token: string;
 }
 
 export interface IUserModel extends IUser, Document {}
@@ -20,7 +21,8 @@ const UserSchema: Schema = new Schema(
         image: { type: String },
         events: { type: Schema.Types.ObjectId, ref: 'Event' },
         tickets: { type: Schema.Types.ObjectId, ref: 'Ticket' },
-        role: { type: String }
+        role: { type: String },
+        token: { type: String }
     },
     {
         versionKey: false
