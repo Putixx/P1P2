@@ -6,7 +6,10 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
     const name = req.body.name;
     const type = req.body.type;
     const owner = req.body.owner;
+    const street = req.body.street;
+    const city = req.body.city;
     const description = req.body.description;
+    const date = req.body.date;
     const image = req.body.image;
     const latitude = req.body.latitude;
     const longtitude = req.body.longtitude;
@@ -19,7 +22,10 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
         name,
         type,
         owner,
+        street,
+        city,
         description,
+        date,
         image,
         latitude,
         longtitude,
