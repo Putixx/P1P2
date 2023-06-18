@@ -13,7 +13,7 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
     const endDate = req.body.endDate;
     const image = req.body.image;
     const latitude = req.body.latitude;
-    const longtitude = req.body.longtitude;
+    const longitude = req.body.longitude;
     const participants = req.body.participants;
     const price = req.body.price;
     const isPromoted = req.body.isPromoted;
@@ -30,7 +30,7 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
         endDate,
         image,
         latitude,
-        longtitude,
+        longitude,
         participants,
         price,
         isPromoted,

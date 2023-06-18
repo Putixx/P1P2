@@ -11,7 +11,7 @@ export interface IEvent {
     endDate: Date;
     image: string;
     latitude: number;
-    longtitude: number;
+    longitude: number;
     participants: string[];
     price: number;
     isPromoted: boolean;
@@ -31,7 +31,7 @@ const EventSchema: Schema = new Schema(
         endDate: { type: Date, required: true },
         image: { type: String, required: true },
         latitude: { type: Number, required: true },
-        longtitude: { type: Number, required: true },
+        longitude: { type: Number, required: true },
         participants: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
         price: { type: Number, required: true },
         isPromoted: { type: Boolean, required: true }
