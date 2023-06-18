@@ -9,7 +9,8 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
     const street = req.body.street;
     const city = req.body.city;
     const description = req.body.description;
-    const date = req.body.date;
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
     const image = req.body.image;
     const latitude = req.body.latitude;
     const longtitude = req.body.longtitude;
@@ -25,7 +26,8 @@ const createEvent = (req: Request, res: Response, next: NextFunction) => {
         street,
         city,
         description,
-        date,
+        startDate,
+        endDate,
         image,
         latitude,
         longtitude,

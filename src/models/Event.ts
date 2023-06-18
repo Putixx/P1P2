@@ -7,7 +7,8 @@ export interface IEvent {
     street: string;
     city: string;
     description: string;
-    date: Date;
+    startDate: Date;
+    endDate: Date;
     image: string;
     latitude: number;
     longtitude: number;
@@ -26,7 +27,8 @@ const EventSchema: Schema = new Schema(
         street: { type: String, required: true },
         city: { type: String, required: true },
         description: { type: String, required: true },
-        date: { type: Date, required: true },
+        startDate: { type: Date, required: true },
+        endDate: { type: Date, required: true },
         image: { type: String, required: true },
         latitude: { type: Number, required: true },
         longtitude: { type: Number, required: true },
