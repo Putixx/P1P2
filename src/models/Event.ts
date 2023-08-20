@@ -32,7 +32,7 @@ const EventSchema: Schema = new Schema(
         image: { type: String, required: true },
         latitude: { type: Number, required: true },
         longitude: { type: Number, required: true },
-        participants: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+        participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         price: { type: Number, required: true },
         isPromoted: { type: Boolean, required: true }
     },

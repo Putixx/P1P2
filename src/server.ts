@@ -40,7 +40,8 @@ const StartServer = () => {
     // Rules of our API
     router.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+        res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token');
 
         if(req.method == 'OPTIONS'){
             res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
@@ -51,13 +52,13 @@ const StartServer = () => {
     });
 
     // Routes
-    router.use('', authRoutes);
-    router.use('/users', auth, userRoutes);
-    router.use('/tickets', auth, ticketRoutes);
-    router.use('/events', auth, eventRoutes);
+    router.use('/api', authRoutes);
+    router.use('/api/users', auth, userRoutes);
+    router.use('/api/tickets', auth, ticketRoutes);
+    router.use('/api/events', auth, eventRoutes);
 
     // Healthcheck
-    router.get('/ping', auth, (req, res, next) => res.status(200).json({message: 'pong'}));
+    router.get('/api/ping', (req, res, next) => res.status(200).json({message: 'pong'}));
 
     // Error handling
     router.use((req, res, next) => {

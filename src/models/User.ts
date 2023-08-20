@@ -17,12 +17,12 @@ const UserSchema: Schema = new Schema(
     {
         username: { type: String },
         email: { type: String },
-        password: { type: String },
+        password: { type: String, select: false },
         image: { type: String },
-        events: { type: Schema.Types.ObjectId, ref: 'Event' },
-        tickets: { type: Schema.Types.ObjectId, ref: 'Ticket' },
+        events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+        tickets: [{ type: Schema.Types.ObjectId, ref: 'Ticket' }],
         role: { type: String },
-        token: { type: String }
+        token: { type: String, select: false }
     },
     {
         versionKey: false

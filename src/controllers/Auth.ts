@@ -1,55 +1,51 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
 import User from '../models/User';
 import controller from '../controllers/User';
+import Logging from '../library/Logging';
 
-const register = async (req: Request, res: Response, next: NextFunction) => {
+const register = async (req: Request, res: Response) => {
     try {
-        // Get user input
-        const { username, email, password, role } = req.body;
+        // Get user email
+        const email = req.body.email;
     
         // Validate user input
-        if (!(email && password && username && role)) {
-          res.status(400).send("All input is required");
+        if (!(req.body.email && req.body.password && req.body.username && req.body.role)) {
+          return res.status(400).send("All input is required");
         }
     
-        // check if user already exist
-        // Validate if user exist in our database
+        // Validate if user exist in database
         const oldUser = await User.findOne({ email });
     
         if (oldUser) {
           return res.status(409).send("User Already Exist. Please Login");
         }
-    
+
         //Encrypt user password
-        const encryptedPassword = await bcrypt.hash(password, 10);
-        console.log(encryptedPassword);
-        req.body.password = encryptedPassword;
-    
-        // Create user in our database
-        const user: any = await controller.createUser(req, res, next);
-    
+        req.body.password = await bcrypt.hash(req.body.password, 10);
+
+        // Create user in database
+        const userId: string = controller.createUser(req, res);
+
         // Create token
         const token = jwt.sign(
-          { user_id: user._id, email },
+          { user_id: userId, email },
           process.env.TOKEN_KEY ?? "",
           {
             expiresIn: "2h",
           }
         );
+
         // save user token
-        user.token = token;
-    
-        // return new user
-        res.status(201).json(user);
-      } catch (err) {
-        console.log(err);
+        controller.saveUserToken(userId, token);
+
+      } catch (error) {
+        Logging.error(error);
       }
 };
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
+const login = async (req: Request, res: Response) => {
   try {
     // Get user input
     const { email, password } = req.body;
@@ -59,8 +55,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       res.status(400).send("All input is required");
     }
     // Validate if user exist in our database
-    const user = await User.findOne({ email });
-
+    const user = await User.findOne({ email }).select('+password +token');
+    
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
@@ -70,16 +66,16 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
           expiresIn: "2h",
         }
       );
-
       // save user token
       user.token = token;
+      user.password = "";
 
       // user
-      res.status(200).json(user);
+      return res.status(200).json(user);
     }
-    res.status(400).send("Invalid Credentials");
-  } catch (err) {
-    console.log(err);
+    return res.status(400).send("Invalid Credentials");
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 

@@ -1,11 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/User';
+import Logging from '../library/Logging';
 
-const createUser = (req: Request, res: Response, next: NextFunction) => {
+const createUser = (req: Request, res: Response) => {
     const username = req.body.username;
     const email = req.body.email;
-    const password = req.body.password;
+    const password = req.body.password
     const image = req.body.image;
     const events = req.body.events;
     const tickets = req.body.tickets;
@@ -22,27 +23,33 @@ const createUser = (req: Request, res: Response, next: NextFunction) => {
         role
     });
 
-    return user
-        .save()
-        .then((user) => res.status(201).json({ user }))
+    user.save()
+        .then((user) => {
+            user.password = '';
+            res.status(201).json({ user })
+        })
         .catch((error) => res.status(500).json({ error }));
+
+    return user._id.valueOf();
 };
 
-const readUser = (req: Request, res: Response, next: NextFunction) => {
+const readUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findById(userId)
-        .then((user) => (user ? res.status(200).json({ user }) : res.status(404).json({ message: 'not found' })))
+        .then((user) => {
+            user ? res.status(200).json({ user }) : res.status(404).json({ message: 'not found' })
+        })
         .catch((error) => res.status(500).json({ error }));
 };
 
-const readAll = (req: Request, res: Response, next: NextFunction) => {
+const readAll = (req: Request, res: Response) => {
     return User.find()
         .then((users) => res.status(200).json({ users }))
         .catch((error) => res.status(500).json({ error }));
 };
 
-const updateUser = (req: Request, res: Response, next: NextFunction) => {
+const updateUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findById(userId)
@@ -61,7 +68,25 @@ const updateUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+const saveUserToken = (userId: string, token: string) => {
+    return User.findById(userId)
+        .then((user) => {
+            if (user) {
+                user.token = token;
+                user.set(user);
+
+                return user
+                    .save()
+                    .then((user) => Logging.info(user))
+                    .catch((error) => Logging.error(error));
+            } else {
+                Logging.error('not found');
+            }
+        })
+        .catch((error) => Logging.error(error));
+};
+
+const deleteUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findByIdAndDelete(userId)
@@ -69,4 +94,4 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-export default { createUser, readUser, readAll, updateUser, deleteUser };
+export default { createUser, readUser, readAll, updateUser, deleteUser, saveUserToken };
