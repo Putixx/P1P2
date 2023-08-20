@@ -2,9 +2,9 @@
 
 ## Setup
 
-**First:** npm install -g nodemon ts-node typescript[^1]
-**After:** npm install chalk@^4.1.2 dotenv express joi mongoose jsonwebtoken bcrypt[^1]
-**Final:** npm install --save-dev typescript @types/express[^1]
+**First:** npm install -g nodemon ts-node typescript<br />
+**After:** npm install chalk@^4.1.2 dotenv express joi mongoose jsonwebtoken bcrypt<br />
+**Final:** npm install --save-dev typescript @types/express<br />
 
 ## Endpoints
 
