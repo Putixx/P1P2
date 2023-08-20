@@ -9,59 +9,59 @@
 ## Endpoints
 
 ### Authentication
-**Register User**
-**POST** /api/register
-post body:
-{
-    "username": "testRegisterUser",
-    "email": "test.test@te.st",
-    "password": "test",
-    "image": "path",
-    "role": "test"
-}
+**Register User**<br />
+**POST** /api/register<br />
+post body:<br />
+{<br />
+    "username": "testRegisterUser",<br />
+    "email": "test.test@te.st",<br />
+    "password": "test",<br />
+    "image": "path",<br />
+    "role": "test"<br />
+}<br />
 
-**Login User**
-**POST** /api/login
-post body:
-{
-  "email": "test.test@te.st",
-  "password": "test"
-}
+**Login User**<br />
+**POST** /api/login<br />
+post body:<br />
+{<br />
+  "email": "test.test@te.st",<br />
+  "password": "test"<br />
+}<br />
 
-it returns "token" which you can use to authenticate to access other resources
+it returns "token" which you can use to authenticate to access other resources<br />
 
 ### Create
-**Events**
-**POST** /api/events/create
+**Events**<br />
+**POST** /api/events/create<br />
 
-**Tickets**
-**POST** /api/tickets/create
+**Tickets**<br />
+**POST** /api/tickets/create<br />
 
 ### Read
-**Users**
-**GET** /api/users -> returns all users
-**GET** /api/users/:userId -> returns specific user
+**Users**<br />
+**GET** /api/users -> returns all users<br />
+**GET** /api/users/:userId -> returns specific user<br />
 
-**Events**
-**GET** /api/events -> returns all events
-**GET** /api/events/event/:eventId -> returns specific event
-**GET** /api/events/users/:eventId -> returns specific event participants
-**GET** /api/events/:eventType -> returns specific events by event type
+**Events**<br />
+**GET** /api/events -> returns all events<br />
+**GET** /api/events/event/:eventId -> returns specific event<br />
+**GET** /api/events/users/:eventId -> returns specific event participants<br />
+**GET** /api/events/:eventType -> returns specific events by event type<br />
 
-**Tickets**
-**GET** /api/tickets -> returns all tickets
-**GET** /api/events/:ticketsId -> returns specific ticket
+**Tickets**<br />
+**GET** /api/tickets -> returns all tickets<br />
+**GET** /api/events/:ticketsId -> returns specific ticket<br />
 
-### Update
-**Events**
-**POST** /api/events/:eventId
+### Update<br />
+**Events**<br />
+**POST** /api/events/:eventId<br />
 
-**Tickets**
-**POST** /api/tickets/ticketId
+**Tickets**<br />
+**POST** /api/tickets/ticketId<br />
 
 ### Delete
-**Events**
-**POST** /api/events/:eventId
+**Events**<br />
+**POST** /api/events/:eventId<br />
 
-**Tickets**
-**POST** /api/tickets/ticketId
+**Tickets**<br />
+**POST** /api/tickets/ticketId<br />
