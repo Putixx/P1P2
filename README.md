@@ -59,9 +59,15 @@ it returns "token" which you can use to authenticate to access other resources<b
 **Tickets**<br />
 **PATCH** /api/tickets/ticketId<br />
 
+**Users**<br />
+**PATCH** /api/users/userId<br />
+
 ### Delete
 **Events**<br />
 **DELETE** /api/events/:eventId<br />
 
 **Tickets**<br />
 **DELETE** /api/tickets/ticketId<br />
+
+**Users**<br />
+**DELETE** /api/users/userId<br />
