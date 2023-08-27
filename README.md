@@ -54,14 +54,14 @@ it returns "token" which you can use to authenticate to access other resources<b
 
 ### Update<br />
 **Events**<br />
-**POST** /api/events/:eventId<br />
+**PATCH** /api/events/:eventId<br />
 
 **Tickets**<br />
-**POST** /api/tickets/ticketId<br />
+**PATCH** /api/tickets/ticketId<br />
 
 ### Delete
 **Events**<br />
-**POST** /api/events/:eventId<br />
+**DELETE** /api/events/:eventId<br />
 
 **Tickets**<br />
-**POST** /api/tickets/ticketId<br />
+**DELETE** /api/tickets/ticketId<br />
