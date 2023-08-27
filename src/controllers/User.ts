@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import Logging from '../library/Logging';
 
@@ -53,8 +54,9 @@ const updateUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findById(userId)
-        .then((user) => {
+        .then(async (user) =>  {
             if (user) {
+                req.body.password = await bcrypt.hash(req.body.password, 10);
                 user.set(req.body);
 
                 return user
