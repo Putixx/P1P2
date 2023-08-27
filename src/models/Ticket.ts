@@ -6,7 +6,6 @@ export interface ITicket {
     price: number;
     date: Date;
     eventId: string;
-    userId: string;
 }
 
 export interface ITicketModel extends ITicket, Document {}
@@ -17,8 +16,7 @@ const TicketSchema: Schema = new Schema(
         type: { type: String },
         price: { type: Number },
         date: { type: Date },
-        eventId: { type: Schema.Types.ObjectId, ref: 'Event' },
-        userId: { type: Schema.Types.ObjectId, ref: 'User' }
+        eventId: { type: Schema.Types.ObjectId, ref: 'Event' }
     },
     {
         versionKey: false

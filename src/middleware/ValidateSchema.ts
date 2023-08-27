@@ -2,7 +2,6 @@ import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
 import Logging from '../library/Logging';
 import { IEvent } from '../models/Event';
-import { ITicket } from '../models/Ticket';
 
 export const ValidateJoi = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -51,24 +50,6 @@ export const Schemas = {
             participants: Joi.array(),
             price: Joi.number(),
             isPromoted: Joi.boolean()
-        })
-    },
-    ticket: {
-        create: Joi.object<ITicket>({
-            name: Joi.string().required(),
-            type: Joi.string().required(),
-            price: Joi.number().required(),
-            date: Joi.date().required(),
-            eventId: Joi.string().required(),
-            userId: Joi.string().required()
-        }),
-        update: Joi.object<ITicket>({
-            name: Joi.string(),
-            type: Joi.string(),
-            price: Joi.number(),
-            date: Joi.date(),
-            eventId: Joi.string(),
-            userId: Joi.string()
         })
     }
 };

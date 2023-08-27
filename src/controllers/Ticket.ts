@@ -5,38 +5,45 @@ import Event from "../models/Event";
 import User from "../models/User";
 
 const createTicket = (req: Request, res: Response) => {
-  const name = req.body.name;
-  const type = req.body.type;
-  const price = req.body.price;
-  const date = req.body.date;
   const eventId = req.body.eventId;
   const userId = req.body.userId;
-
-  const ticket = new Ticket({
+  let ticketFound: any = {
     _id: new mongoose.Types.ObjectId(),
-    name,
-    type,
-    price,
-    date,
-    eventId,
-    userId
+    name: "",
+    type: "",
+    price: 0,
+    date: new Date(),
+    eventId: "",
+  };
+
+  Ticket.find().then((tickets) => {
+    ticketFound = tickets.find(
+      (ticket) => ticket.eventId.toString() === eventId
+    )!;
   });
 
-  User.findById(userId)
-  .then((user) => {
-    if(user) {
+  User.findById(userId).then((user) => {
+    if (user) {
+      if (!user.events.includes(eventId)) {
         user.events.push(eventId);
-        user.tickets.push(ticket._id.valueOf());
-        user.save().catch((error) => res.status(500).json({ error }));
+      }
+      if (!user.tickets.includes(ticketFound._id.toString())) {
+        user.tickets.push(ticketFound._id.toString());
+      }
+
+      user.save().catch((error) => res.status(500).json({ error }));
     } else {
-        return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({ message: "user not found" });
     }
-  })
+  });
 
   Event.findById(eventId)
     .then((event) => {
       if (event) {
-        event.participants.push(userId);
+        if (!event.participants.includes(userId)) {
+          event.participants.push(userId);
+        }
+
         event.save().catch((error) => res.status(500).json({ error }));
       } else {
         return res.status(404).json({ message: "event not found" });
@@ -44,10 +51,7 @@ const createTicket = (req: Request, res: Response) => {
     })
     .catch((error) => res.status(500).json({ error }));
 
-  return ticket
-    .save()
-    .then((ticket) => res.status(201).json({ ticket }))
-    .catch((error) => res.status(500).json({ error }));
+  return res.status(201).json({ message: "ticket bought" });
 };
 
 const readTicket = (req: Request, res: Response) => {
