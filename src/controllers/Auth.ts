@@ -11,7 +11,7 @@ const register = async (req: Request, res: Response) => {
         const email = req.body.email;
     
         // Validate user input
-        if (!(req.body.email && req.body.password && req.body.username && req.body.role)) {
+        if (!(req.body.email && req.body.password)) {
           return res.status(400).send("All input is required");
         }
     

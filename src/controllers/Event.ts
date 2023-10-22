@@ -68,19 +68,6 @@ const readEvent = (req: Request, res: Response) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-const readEventByType = (req: Request, res: Response) => {
-  const eventType = req.params.eventType;
-
-  return Event.find()
-    .then((events) => {
-      let filteredEvents = events.filter((e) => e.type === eventType);
-      filteredEvents
-        ? res.status(200).json({ filteredEvents })
-        : res.status(404).json({ message: "not found" });
-    })
-    .catch((error) => res.status(500).json({ error }));
-};
-
 const readEventParticipants = (req: Request, res: Response) => {
   const eventId = req.params.eventId;
 
@@ -197,7 +184,6 @@ const deleteEvent = (req: Request, res: Response) => {
 export default {
   createEvent,
   readEvent,
-  readEventByType,
   readEventParticipants,
   readAll,
   updateEvent,
