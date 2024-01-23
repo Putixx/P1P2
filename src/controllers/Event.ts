@@ -142,8 +142,9 @@ const readAll = (req: Request, res: Response) => {
           }
         }
       }
-
-      res.status(200).json({ events });
+      else {
+        return res.status(200).json({ events });
+      }
     })
     .catch((error) => res.status(500).json({ error }));
 };
@@ -154,8 +155,11 @@ const updateEvent = (req: Request, res: Response) => {
   return Event.findById(eventId)
     .then((event) => {
       if (event) {
+        if(!Array.isArray(event.participants)){
+          return res.status(500).json({ message: "events participants should be an array of string" });
+        }
+        
         event.set(req.body);
-
         return event
           .save()
           .then((event) => res.status(201).json({ event }))

@@ -50,24 +50,14 @@ const readAll = (req: Request, res: Response) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-const updateUser = (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response) => {
     const userId = req.params.userId;
-
-    return User.findById(userId)
-        .then(async (user) =>  {
-            if (user) {
-                req.body.password = await bcrypt.hash(req.body.password, 10);
-                user.set(req.body);
-
-                return user
-                    .save()
-                    .then((user) => res.status(201).json({ user }))
-                    .catch((error) => res.status(500).json({ error }));
-            } else {
-                return res.status(404).json({ message: 'not found' });
-            }
-        })
-        .catch((error) => res.status(500).json({ error }));
+    if(req.body.password){
+        console.log("password")
+        req.body.password = await bcrypt.hash(req.body.password, 10);
+    }
+    return User.findOneAndUpdate({_id: userId}, {$set: req.body}, {upsert: true, new: true})
+        .catch((error) => console.log(error));
 };
 
 const saveUserToken = (userId: string, token: string) => {

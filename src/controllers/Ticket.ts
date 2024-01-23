@@ -31,7 +31,7 @@ const createTicket = (req: Request, res: Response) => {
         user.tickets.push(ticketFound._id.toString());
       }
 
-      user.save().catch((error) => res.status(500).json({ error }));
+      user.save().catch((error) => console.log(error));
     } else {
       return res.status(404).json({ message: "user not found" });
     }
@@ -43,13 +43,11 @@ const createTicket = (req: Request, res: Response) => {
         if (!event.participants.includes(userId)) {
           event.participants.push(userId);
         }
-
-        event.save().catch((error) => res.status(500).json({ error }));
+        event.save().catch((error) => console.log(error));
       } else {
         return res.status(404).json({ message: "event not found" });
       }
-    })
-    .catch((error) => res.status(500).json({ error }));
+    });
 
   return res.status(201).json({ message: "ticket bought" });
 };
